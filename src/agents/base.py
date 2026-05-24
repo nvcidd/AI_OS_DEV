@@ -9,6 +9,4 @@ class BaseAgent:
 
     def execute(self, task):
 
-        raise NotImplementedError(
-            "Subclasses must implement execute()"
-        )
+        raise NotImplementedError()
