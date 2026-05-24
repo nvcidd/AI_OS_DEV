@@ -1,17 +1,17 @@
+from src.agents.planner_agent import PlannerAgent
+
+
 class WorkflowManager:
+
+    def __init__(self):
+
+        self.planner = PlannerAgent()
+
 
     def execute(self, user_goal):
 
-        tasks = [
-
-            "Analyze goal",
-
-            "Plan steps",
-
-            "Execute research",
-
-            "Generate response"
-
-        ]
+        tasks = self.planner.execute(
+            user_goal
+        )
 
         return tasks
