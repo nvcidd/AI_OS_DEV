@@ -1,8 +1,10 @@
 from src.router.task_router import TaskRouter
 from src.agents.registry import AgentRegistry
+
 from src.agents.research_agent import ResearchAgent
 from src.agents.planner_agent import PlannerAgent
 from src.agents.summarizer_agent import SummarizerAgent
+
 from src.database import Database
 
 
@@ -31,8 +33,19 @@ class TaskExecutor:
             SummarizerAgent()
         )
 
+    def execute(
+        self,
+        user_input
+    ):
 
-    def execute(self,user_input):
+        task_id = self.db.create_task(
+            user_input
+        )
+
+        self.db.update_task_status(
+            task_id,
+            "RUNNING"
+        )
 
         agent_name = self.router.route(
             user_input
@@ -46,8 +59,8 @@ class TaskExecutor:
             user_input
         )
 
-        self.db.save_task(
-            user_input,
+        self.db.complete_task(
+            task_id,
             result
         )
 

@@ -20,14 +20,16 @@ class Database:
 
             user_input TEXT,
 
-            result TEXT
+            status TEXT,
 
+            result TEXT,
+
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
 
         """)
 
         self.connection.commit()
-
 
     def save_task(
         self,
@@ -40,20 +42,21 @@ class Database:
             """
             INSERT INTO tasks(
                 user_input,
+                status,
                 result
             )
 
-            VALUES(?,?)
+            VALUES(?,?,?)
             """,
 
             (
                 user_input,
-                result
+                "COMPLETED",
+                str(result)
             )
         )
 
         self.connection.commit()
-
 
     def get_tasks(self):
 
@@ -62,3 +65,82 @@ class Database:
         )
 
         return self.cursor.fetchall()
+
+    def create_task(
+        self,
+        user_input
+    ):
+
+        self.cursor.execute(
+
+            """
+            INSERT INTO tasks(
+                user_input,
+                status,
+                result
+            )
+
+            VALUES(?,?,?)
+            """,
+
+            (
+                user_input,
+                "PENDING",
+                ""
+            )
+        )
+
+        self.connection.commit()
+
+        return self.cursor.lastrowid
+
+    def update_task_status(
+        self,
+        task_id,
+        status
+    ):
+
+        self.cursor.execute(
+
+            """
+            UPDATE tasks
+
+            SET status=?
+
+            WHERE id=?
+            """,
+
+            (
+                status,
+                task_id
+            )
+        )
+
+        self.connection.commit()
+
+    def complete_task(
+        self,
+        task_id,
+        result
+    ):
+
+        self.cursor.execute(
+
+            """
+            UPDATE tasks
+
+            SET
+                status=?,
+                result=?
+
+            WHERE id=?
+            """,
+
+            (
+                "COMPLETED",
+                str(result),
+                task_id
+            )
+        )
+
+        self.connection.commit()

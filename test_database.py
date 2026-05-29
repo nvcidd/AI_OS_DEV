@@ -10,3 +10,8 @@ db.save_task(
 print(
     db.get_tasks()
 )
+from src.database import Database
+
+db = Database()
+
+print(db.get_tasks())
