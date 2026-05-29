@@ -24,3 +24,9 @@ def run_task(task: str):
         "task": task,
         "result": result
     }
+@app.get("/history")
+def history():
+
+    return {
+        "tasks": executor.db.get_tasks()
+    }
