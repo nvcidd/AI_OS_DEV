@@ -1,6 +1,10 @@
 from fastapi import FastAPI
 
 from src.executor.executor import TaskExecutor
+from src.api.schemas import (
+    TaskRequest,
+    TaskResponse
+)
 
 app = FastAPI()
 
@@ -15,15 +19,25 @@ def home():
     }
 
 
-@app.post("/task")
-def run_task(task: str):
+@app.post(
+    "/task",
+    response_model=TaskResponse
+)
+def run_task(
+    request: TaskRequest
+):
 
-    result = executor.execute(task)
+    result = executor.execute(
+        request.task
+    )
 
-    return {
-        "task": task,
-        "result": result
-    }
+    return TaskResponse(
+        task=request.task,
+        status="COMPLETED",
+        result=str(result)
+    )
+
+
 @app.get("/history")
 def history():
 
