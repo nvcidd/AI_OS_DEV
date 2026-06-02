@@ -189,3 +189,30 @@ class Database:
         )
 
         return self.cursor.fetchone()[0]
+    
+    def fail_task(
+    self,
+    task_id,
+    error
+):
+
+        self.cursor.execute(
+
+            """
+            UPDATE tasks
+
+            SET
+                status=?,
+                result=?
+
+            WHERE id=?
+            """,
+
+            (
+                "FAILED",
+                str(error),
+                task_id
+            )
+        )
+
+        self.connection.commit()

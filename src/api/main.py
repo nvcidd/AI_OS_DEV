@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-
+from src.workers.background_worker import BackgroundWorker
 from src.executor.executor import TaskExecutor
 from src.api.schemas import (
     TaskRequest,
@@ -19,23 +19,24 @@ def home():
     }
 
 
-@app.post(
-    "/task",
-    response_model=TaskResponse
-)
+@app.post("/task")
 def run_task(
     request: TaskRequest
 ):
 
-    result = executor.execute(
+    BackgroundWorker.run(
+
+        executor.execute_async,
+
         request.task
     )
 
-    return TaskResponse(
-        task=request.task,
-        status="COMPLETED",
-        result=str(result)
-    )
+    return {
+
+        "task": request.task,
+
+        "status": "PENDING"
+    }
 
 
 @app.get("/history")
@@ -116,3 +117,4 @@ def analytics():
             executor.db.get_completed_tasks()
         )
     }
+
