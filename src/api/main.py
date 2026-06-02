@@ -90,7 +90,29 @@ def get_task(
 
         "created_at": task[4]
     }
+
+
 @app.get("/metrics")
 def metrics():
 
     return executor.metrics.get_metrics()
+
+
+@app.get("/analytics")
+def analytics():
+
+    return {
+
+        "total_tasks": executor.db.get_total_tasks(),
+
+        "completed_tasks": executor.db.get_completed_tasks(),
+
+        "failed_tasks": (
+
+            executor.db.get_total_tasks()
+
+            -
+
+            executor.db.get_completed_tasks()
+        )
+    }

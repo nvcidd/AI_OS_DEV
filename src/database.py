@@ -146,8 +146,8 @@ class Database:
         self.connection.commit()
 
     def get_task_by_id(
-    self,
-    task_id
+        self,
+        task_id
     ):
 
         self.cursor.execute(
@@ -166,3 +166,26 @@ class Database:
         )
 
         return self.cursor.fetchone()
+
+    def get_total_tasks(self):
+
+        self.cursor.execute(
+            "SELECT COUNT(*) FROM tasks"
+        )
+
+        return self.cursor.fetchone()[0]
+
+    def get_completed_tasks(self):
+
+        self.cursor.execute(
+
+            """
+            SELECT COUNT(*)
+
+            FROM tasks
+
+            WHERE status='COMPLETED'
+            """
+        )
+
+        return self.cursor.fetchone()[0]
