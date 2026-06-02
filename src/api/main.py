@@ -41,6 +41,24 @@ def run_task(
 @app.get("/history")
 def history():
 
-    return {
-        "tasks": executor.db.get_tasks()
-    }
+    tasks = executor.db.get_tasks()
+
+    formatted_tasks = []
+
+    for task in tasks:
+
+        formatted_tasks.append({
+
+            "id": task[0],
+
+            "task": task[1],
+
+            "status": task[2],
+
+            "result": task[3],
+
+            "created_at": task[4]
+
+        })
+
+    return formatted_tasks
