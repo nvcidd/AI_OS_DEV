@@ -144,3 +144,25 @@ class Database:
         )
 
         self.connection.commit()
+
+    def get_task_by_id(
+    self,
+    task_id
+    ):
+
+        self.cursor.execute(
+
+            """
+            SELECT *
+
+            FROM tasks
+
+            WHERE id=?
+            """,
+
+            (
+                task_id,
+            )
+        )
+
+        return self.cursor.fetchone()

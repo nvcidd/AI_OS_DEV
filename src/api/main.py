@@ -62,3 +62,31 @@ def history():
         })
 
     return formatted_tasks
+
+@app.get("/tasks/{task_id}")
+def get_task(
+    task_id: int
+):
+
+    task = executor.db.get_task_by_id(
+        task_id
+    )
+
+    if not task:
+
+        return {
+            "error": "Task not found"
+        }
+
+    return {
+
+        "id": task[0],
+
+        "task": task[1],
+
+        "status": task[2],
+
+        "result": task[3],
+
+        "created_at": task[4]
+    }
