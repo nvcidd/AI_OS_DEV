@@ -90,3 +90,7 @@ def get_task(
 
         "created_at": task[4]
     }
+@app.get("/metrics")
+def metrics():
+
+    return executor.metrics.get_metrics()
