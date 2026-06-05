@@ -6,7 +6,7 @@ class Database:
     def __init__(self):
 
         self.connection = sqlite3.connect(
-            "ai_os.db",
+            "data/ai_os.db",
             check_same_thread=False
         )
 
