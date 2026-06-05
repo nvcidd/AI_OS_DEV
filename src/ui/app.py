@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+import pandas as pd
 
 API_URL = "http://127.0.0.1:8000"
 
@@ -10,6 +11,12 @@ st.set_page_config(
 )
 
 st.title("🤖 DevMind AI Operating System")
+
+# =========================
+# Run Task Section
+# =========================
+
+st.subheader("🚀 Run Task")
 
 task = st.text_input(
     "Enter a task"
@@ -27,12 +34,16 @@ if st.button("Run Task"):
         )
 
         st.subheader(
-            "Result"
+            "📄 Result"
         )
 
         st.write(
             response.json()
         )
+
+# =========================
+# Analytics Section
+# =========================
 
 st.divider()
 
@@ -64,6 +75,10 @@ with col3:
         analytics["failed_tasks"]
     )
 
+# =========================
+# Metrics Section
+# =========================
+
 st.divider()
 
 st.subheader(
@@ -78,6 +93,10 @@ st.json(
     metrics
 )
 
+# =========================
+# History Section
+# =========================
+
 st.divider()
 
 st.subheader(
@@ -88,6 +107,11 @@ history = requests.get(
     f"{API_URL}/history"
 ).json()
 
-st.json(
-    history
+df = pd.DataFrame(
+    history["tasks"]
+)
+
+st.dataframe(
+    df,
+    width="stretch"
 )

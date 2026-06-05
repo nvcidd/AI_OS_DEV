@@ -62,7 +62,11 @@ def history():
 
         })
 
-    return formatted_tasks
+    return {
+
+        "tasks": formatted_tasks
+
+    }
 
 @app.get("/tasks/{task_id}")
 def get_task(
