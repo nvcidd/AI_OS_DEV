@@ -1,4 +1,4 @@
-# DevMind AI Operating System
+# DevMind: Multi-Agent AI Operating System
 
 A multi-agent AI workflow platform built using FastAPI, Streamlit, SQLite, Docker, and Groq LLM.
 
