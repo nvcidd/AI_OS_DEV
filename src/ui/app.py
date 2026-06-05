@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 import pandas as pd
+import time
 
 API_URL = "http://127.0.0.1:8000"
 
@@ -57,17 +58,55 @@ if page == "Dashboard":
 
             result = response.json()
 
+            task_id = result["task_id"]
+
             st.success(
-                f"Task Submitted Successfully!"
+                "Task Submitted Successfully!"
             )
 
             st.write(
-                f"Task ID: {result['task_id']}"
+                f"Task ID: {task_id}"
             )
 
-            st.write(
-                f"Status: {result['status']}"
-            )
+            status_placeholder = st.empty()
+
+            while True:
+
+                task_response = requests.get(
+                    f"{API_URL}/tasks/{task_id}"
+                ).json()
+
+                current_status = task_response["status"]
+
+                status_placeholder.info(
+                    f"Current Status: {current_status}"
+                )
+
+                if current_status in [
+                    "COMPLETED",
+                    "FAILED"
+                ]:
+
+                    break
+
+                time.sleep(1)
+
+            if current_status == "COMPLETED":
+
+                st.success(
+                    "Task Completed!"
+                )
+
+                st.write(
+                    task_response["result"]
+                )
+
+            else:
+
+                st.error(
+                    task_response["result"]
+                )
+
     st.divider()
 
     st.subheader(
