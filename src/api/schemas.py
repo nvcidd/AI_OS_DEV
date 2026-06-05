@@ -8,8 +8,8 @@ class TaskRequest(BaseModel):
 
 class TaskResponse(BaseModel):
 
+    task_id: int
+
     task: str
 
     status: str
-
-    result: str

@@ -24,20 +24,27 @@ def run_task(
     request: TaskRequest
 ):
 
+    task_id = executor.db.create_task(
+        request.task
+    )
+
     BackgroundWorker.run(
 
         executor.execute_async,
+
+        task_id,
 
         request.task
     )
 
     return {
 
+        "task_id": task_id,
+
         "task": request.task,
 
         "status": "PENDING"
     }
-
 
 @app.get("/history")
 def history():

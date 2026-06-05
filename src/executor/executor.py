@@ -91,9 +91,41 @@ class TaskExecutor:
 
     def execute_async(
         self,
+        task_id,
         user_input
     ):
 
-        self.execute(
+        self.db.update_task_status(
+            task_id,
+            "RUNNING"
+        )
+
+        agent_name = self.router.route(
             user_input
         )
+
+        self.metrics.increment(
+            agent_name
+        )
+
+        try:
+
+            agent = self.registry.get(
+                agent_name
+            )
+
+            result = agent.execute(
+                user_input
+            )
+
+            self.db.complete_task(
+                task_id,
+                result
+            )
+
+        except Exception as e:
+
+            self.db.fail_task(
+                task_id,
+                str(e)
+            )

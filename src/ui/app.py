@@ -55,14 +55,19 @@ if page == "Dashboard":
                 }
             )
 
-            st.subheader(
-                "📄 Result"
+            result = response.json()
+
+            st.success(
+                f"Task Submitted Successfully!"
             )
 
             st.write(
-                response.json()
+                f"Task ID: {result['task_id']}"
             )
 
+            st.write(
+                f"Status: {result['status']}"
+            )
     st.divider()
 
     st.subheader(
