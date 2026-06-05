@@ -114,9 +114,10 @@ if page == "Dashboard":
         ]
     )
 
-    st.dataframe(
-        metrics_df,
-        width="stretch"
+    st.bar_chart(
+        metrics_df.set_index(
+            "Agent"
+        )
     )
 
 # =========================
