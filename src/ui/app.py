@@ -11,7 +11,15 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("🤖 DevMind AI Operating System")
+st.markdown(
+    """
+    # 🤖 DevMind AI Operating System
+
+    ### Multi-Agent AI Workflow Platform
+
+    Research • Planning • Summarization
+    """
+)
 
 # =========================
 # Sidebar
@@ -21,8 +29,19 @@ st.sidebar.title(
     "🤖 DevMind AI OS"
 )
 
+st.sidebar.markdown(
+    """
+    ---
+    ### Navigation
+
+    Manage tasks and monitor agents
+
+    ---
+    """
+)
+
 page = st.sidebar.radio(
-    "Navigation",
+    "Select Page",
     [
         "Dashboard",
         "History"
@@ -30,7 +49,7 @@ page = st.sidebar.radio(
 )
 
 # =========================
-# Dashboard Page
+# Dashboard
 # =========================
 
 if page == "Dashboard":
@@ -86,7 +105,6 @@ if page == "Dashboard":
                     "COMPLETED",
                     "FAILED"
                 ]:
-
                     break
 
                 time.sleep(1)
@@ -94,7 +112,7 @@ if page == "Dashboard":
             if current_status == "COMPLETED":
 
                 st.success(
-                    "Task Completed!"
+                    "✅ Task Completed!"
                 )
 
                 st.write(
@@ -109,6 +127,10 @@ if page == "Dashboard":
 
     st.divider()
 
+    # =========================
+    # Analytics
+    # =========================
+
     st.subheader(
         "📊 Analytics"
     )
@@ -122,25 +144,29 @@ if page == "Dashboard":
     with col1:
 
         st.metric(
-            "Total Tasks",
+            "📋 Total Tasks",
             analytics["total_tasks"]
         )
 
     with col2:
 
         st.metric(
-            "Completed",
+            "✅ Completed",
             analytics["completed_tasks"]
         )
 
     with col3:
 
         st.metric(
-            "Failed",
+            "❌ Failed",
             analytics["failed_tasks"]
         )
 
     st.divider()
+
+    # =========================
+    # Agent Metrics
+    # =========================
 
     st.subheader(
         "📈 Agent Metrics"
@@ -181,6 +207,16 @@ if page == "History":
     df = pd.DataFrame(
         history["tasks"]
     )
+
+    if not df.empty:
+
+        df.columns = [
+            "ID",
+            "Task",
+            "Status",
+            "Result",
+            "Created At"
+        ]
 
     st.dataframe(
         df,
