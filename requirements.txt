@@ -22,3 +22,5 @@ pytest==7.4.3
  
 # Utilities
 requests==2.31.0
+
+streamlit==1.45.1
